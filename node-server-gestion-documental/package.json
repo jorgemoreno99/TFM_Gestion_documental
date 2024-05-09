@@ -1,0 +1,36 @@
+{
+  "name": "server-gestion-documental",
+  "version": "1.0.0",
+  "description": "Backend for Gestion Documental App",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node ./app/index.js"
+  },
+  "keywords": [
+    "TFM",
+    "Backend",
+    "Node",
+    "Server"
+  ],
+  "author": "Jorge Moreno Peralta",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "formidable": "^2.1.1",
+    "fs": "^0.0.1-security",
+    "google-auth-library": "^8.7.0",
+    "googleapis": "^118.0.0",
+    "handlebars": "^4.7.7",
+    "jsonwebtoken": "^9.0.0",
+    "mysql2": "^3.2.3",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.22",
+    "redis-server": "^1.2.2",
+    "sequelize": "^6.31.0",
+    "sequelize-auto": "^0.8.8",
+    "sequelize-cli": "^6.6.0"
+  }
+}

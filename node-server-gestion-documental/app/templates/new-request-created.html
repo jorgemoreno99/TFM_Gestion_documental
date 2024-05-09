@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+</head>
+
+<body>
+    <p style="background-color: #c1e1ff; min-height: 64px; width: 640px; display: flex;">
+        <img style="width:127px; height:35px; margin-top:15px; margin-left:15px;" src="https://storage.googleapis.com/purchase-department/logo-little.png" />
+        <span style="color: white; font-size: 16px; font-weight: 600; margin: 24px 16px; width: 313px;"></span>
+        <span style="color: #67a2c0; font-size: 16px; font-weight: 500; margin-top:24px;  width: 140px; text-align: right;">New Legal Request.</span>
+    </p>
+    <p style="font-size: 14px; line-height: 20px; width:640px; margin-top:25px;"><b>Your new legal request created successfully.</b><br/></p>
+    <p style="font-size: 14px; line-height: 20px; width:640px; margin-top:25px;"> Request resume:</p>
+    <ul>
+        <!-- <li>Project Status: <b>{{requestStatus}}</b></li> -->
+    </ul>
+    <ul>
+        <li>Applicant: {{applicant}}</li>
+        <li>Project Name: {{projectName}}</li>
+        <li>Priority: {{priority}}</li>
+        <li>Deadline: {{deadline}}</li>
+
+    </ul>
+    <ul>
+        <li>Purpose: {{purpose}}</li>
+        <li>Description {{description}}</li>
+        <li>Background {{background}}</li>
+        <li>Foreground {{foreground}}</li>
+        <li>Comments {{comments}}</li>
+    </ul>
+    <ul>
+        <li>Price {{price}}</li>
+        <li>Payment Method: {{paymentMethod}}</li>
+    </ul>
+    <ul>
+        <li>Created Date {{date}}</li>
+    </ul>
+
+
+    <p style="font-size: 14px; line-height: 20px;">You can follow up on this request and its details in the following link: <a href={{homeLink}} target="_blank">Link to request</a></p>
+
+    <img src="https://storage.googleapis.com/purchase-department/logo-little.png" />
+</body>
+
+</html>
