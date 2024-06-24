@@ -1,0 +1,111 @@
+  <div class="main">
+    <div *ngIf="!IAmSupervisor" class="profileContainer">
+      <mat-tab-group  #tabGroup mat-stretch-tabs="false" mat-align-tabs="start" class="p-2" >
+
+        <div class="table-container mat-elevation-z8" [hidden]="!loaded">
+
+          <mat-tab label="Pending">
+            <div class="table-container">
+              <table mat-table [dataSource]="dataSourcePending" >
+                
+                <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+                  <th mat-header-cell *matHeaderCellDef > {{getLabel(col)}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element[col]}} </td>
+                </ng-container>
+                
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="min-height: 20px"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="min-height: 20px" (click)="goToDetails(row)"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell no-activities" [attr.colspan]="displayedColumns.length">
+                    No pending activities.
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </mat-tab>
+          <mat-tab label="Submitted">
+            <div class="table-container">
+              <table mat-table [dataSource]="dataSourceSubmitted" >
+                
+                <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+                  <th mat-header-cell *matHeaderCellDef > {{getLabel(col)}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element[col]}} </td>
+                </ng-container>
+                
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="min-height: 20px"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="min-height: 20px" (click)="goToDetails(row)"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell no-activities" [attr.colspan]="displayedColumns.length">
+                    No submitted activities.
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </mat-tab>
+
+        </div>
+
+      </mat-tab-group>
+    </div>
+
+    <div *ngIf="IAmSupervisor" class="supervisorContainer">
+      <button type="button" class="btn btn-secondary create-button" (click)="createHandler()" >Create</button>
+      <mat-tab-group #tabGroup mat-stretch-tabs="false" mat-align-tabs="start" class="p-2" >
+
+        <div class="table-container mat-elevation-z8" [hidden]="!loaded">
+  
+          <mat-tab label="My activities">
+            <div class="table-container">
+
+              <table mat-table [dataSource]="dataSourcemyActivities"  >
+                
+                <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+                  <th mat-header-cell *matHeaderCellDef > {{getLabel(col)}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element[col]}} </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="min-height: 20px"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="min-height: 20px" (click)="goToDetails(row)"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell no-activities" [attr.colspan]="displayedColumns.length">
+                    You dont have any created activities yet.
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+            
+          </mat-tab>
+          <mat-tab label="All activities">
+            <div class="table-container">
+              <table mat-table [dataSource]="dataSourceAllActivities" >
+                
+                <ng-container *ngFor="let col of displayedColumns" [matColumnDef]="col">
+                  <th mat-header-cell *matHeaderCellDef > {{getLabel(col)}} </th>
+                  <td mat-cell *matCellDef="let element"> {{element[col]}} </td>
+                </ng-container>
+                
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" style="min-height: 20px"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="min-height: 20px" (click)="goToDetails(row)"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell no-activities" [attr.colspan]="displayedColumns.length">
+                    No activities.
+                  </td>
+                </tr>
+                
+              </table>
+            </div>
+
+          </mat-tab>
+  
+        </div>
+  
+      
+      </mat-tab-group>
+
+    </div>
+
+  </div>
+

@@ -1,0 +1,31 @@
+<div>
+
+    <div class="banner margins d-flex justify-content-center">
+        <mat-icon class="mr-2">settings</mat-icon>
+        <div class="banner-text">Supervisor settings</div>
+    </div>
+    
+    
+        <div class="mat-elevation-z8 content-wrapper table-wrapper">
+            <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                    <td mat-cell *matCellDef="let row">{{ row.email }}</td>
+                </ng-container>
+                <ng-container matColumnDef="supervisorCheck">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-checkbox (change)="changeHandler($event, row)" [checked]="row.supervisor" [disabled]="row.email == userService.getData().user"></mat-checkbox>
+                    </td>
+                </ng-container> 
+                <tr mat-header-row *matHeaderRowDef="['email', 'supervisorCheck']"></tr>
+                <tr mat-row *matRowDef="let row; columns: ['email', 'supervisorCheck'];"></tr>
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+        

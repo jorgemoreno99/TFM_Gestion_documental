@@ -1,27 +1,33 @@
 const db = require("../models");
 const Activity = db.activity;
+const Profile = db.profile;
+const Supervisor = db.supervisor;
+const Contribution = db.contribution;
+const Approval = db.approval;
 
-const { sequelize, Op } = require("sequelize");
+const {
+  getIdProfile,
+  getIdSupervisor,
+} = require("../services/profile.service");
+
 
 // const {
 //   notifyEmailCreationApplicant,
 //   notifyEmailRequestReviewed,
 // } = require("../services/notify_email_functions");
 
-class ActivityController {
-  constructor() {
-  }
+
 
 
   // =========================
-  // *** GET ALL Activity ***
+  // *** GET ALL Activities ***
   // =========================
-  async getAllActivities(req, res) {
+  const getAll = async (req, res) => {
     try {
       const data = await Activity.findAll({
         order: [['idactivity', 'DESC']],
         include: [
-          // {model: TeamRequired, as: 'TeamRequireds', include: [{model: Team, as: 'idTeam_Team'}]}
+          {model: Supervisor, as: 'idCreator_supervisor', include: [{model: Profile, as: 'idProfile_profile'}]}
         ]
       });
       res.send({'data': data, message : 200});
@@ -31,49 +37,192 @@ class ActivityController {
     }
   }
 
+    // =========================
+  // *** GET ACTIVITIES FROM A GIVEN CREATOR ***
   // =========================
-  // *** GET REQUESTS FROM A GIVEN APPLICANT ***
+  const getActivitiesByCreator = async (req, res) => {
+    try {
+      let email = req.get('profile')
+      const idProfileCreator = await getIdProfile(email)
+      const idSupervisor = await getIdSupervisor(idProfileCreator)
+
+      if(!idSupervisor) throw new Error("No supervisor Profile")
+
+      const data = await Activity.findAll({
+        where: { idCreator: idSupervisor },
+        include: [
+          {model: Supervisor, as: 'idCreator_supervisor', include: [{model: Profile, as: 'idProfile_profile'}]}
+        ]
+      });
+      res.send({'data': data, message : 200});
+    } catch (e) {
+      console.log("error", e);
+      res.status(500).send({
+        message: "Error gathering Activities from the given creator: " + e,
+      });
+    }
+  }
+
+
+
   // =========================
-//   async findUserRequest(req, res) {
-//     try {
-//       let applicant = req.params.email;
-//       const data = await Request.findAll({
-//         where: { applicant: applicant },
-//         include: [
-//           {model: TeamRequired, as: 'TeamRequireds', include: [{model: Team, as: 'idTeam_Team'}]}
-//         ]
-//       });
-//       res.send({'data': data, message : 200});
-//     } catch (e) {
-//       console.log("error", e);
-//       res.status(500).send({
-//         message: "Error gathering Requests from the given user" + e,
-//       });
-//     }
-//   }
+  // *** GET Submitted Activities ***
+  // =========================
+  const getSubmittedActivities = async (req, res) => {
+    try {
 
-//   async create(req, res) {
-//     try {
-//       const data = await Request.create(req.body.data);
+      let email = req.params.email;
+      const idProfile = await getIdProfile(email)
 
-//       try {
-//         await notifyEmailCreationApplicant(data.dataValues)
+      let data = await Activity.findAll({
+        order: [['idactivity', 'DESC']],
+        include: [
+          {model: Supervisor, as: 'idCreator_supervisor', include: [{model: Profile, as: 'idProfile_profile'}]},
+          {model: Contribution, as: 'contributions',  where: { idProfile: idProfile }, required: true,
+            include:[
+              {model: Approval, as: 'approvals', required : false},
+              {model: Profile, as: 'idProfile_profile', required : false},
+            ]},
+        ],
+      });
+      res.send({'data': data, message : 200});
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err);
+    }
+  }
+
+
+    // =========================
+  // *** GET Pending Activities ***
+  // =========================
+  const getPendingActivities = async (req, res) => {
+    try {
+
+      let email = req.params.email;
+      const idProfile = await getIdProfile(email)
+
+      let data = await Activity.findAll({
+        order: [['idactivity', 'DESC']],
+        include: [
+          {model: Supervisor, as: 'idCreator_supervisor', include: [{model: Profile, as: 'idProfile_profile', attributes:["email", "name"]}]},
+          {model: Contribution, as: 'contributions',  where: { idProfile: idProfile }, required: false},
+        ],
+      });
+
+      data = data.filter(a => a.dataValues.contributions.length == 0);
+
+      res.send({'data': data, message : 200});
+
+    } catch (err) {
+      console.error(err);
+      res.status(500).send(err);
+    }
+  }
+
+
+
+// =========================
+// *** GET ACTIVITY FROM A GIVEN ID : For regular user***
+// =========================
+const getById = async (req, res) => {
+  try {
+      let id = req.params.id;
+      let email = req.get('profile')
+      const idProfile = await getIdProfile(email)
+
+      const data = await Activity.findOne({
+        where: { idactivity: id },
+        include: [
+          {model: Supervisor, as: 'idCreator_supervisor', include: [{model: Profile, as: 'idProfile_profile', attributes:["email", "name"]}]},
+          {model: Contribution, as: 'contributions', where: { idProfile: idProfile }, required: false, include:[{model: Approval, as: 'approvals', required : false}]},
+        ],
+      });
+      res.send({'data': data, message : 200});
+    } catch (e) {
+      console.log("error", e);
+      res.status(500).send({
+        message: "Error gathering the activity. " + e,
+      });
+    }
+  }
+
+
+  // =========================
+// *** GET ACTIVITY FROM A GIVEN ID : For Supervisor***
+// =========================
+const getByIdForSupervisor = async (req, res) => {
+  try {
+      let id = req.params.id;
+      // let email = req.get('profile')
+      // const idProfile = await getIdProfile(email)
+
+      const data = await Activity.findOne({
+        where: { idactivity: id },
+        include: [
+          {model: Supervisor, as: 'idCreator_supervisor', include: [{model: Profile, as: 'idProfile_profile', attributes:["email", "name"]}]},
+          {model: Contribution, as: 'contributions', required: false,
+            include:[{model: Approval, as: 'approvals', required : false,
+              include: [{model: Supervisor, as: 'idSupervisor_supervisor', 
+                include: [{model: Profile, as: 'idProfile_profile', attributes:["email", "name"]}]
+              }]
+            },
+            {model: Profile, as: 'idProfile_profile', attributes:["email", "name"]}
+          ]},
+        ],
+      });
+      res.send({'data': data, message : 200});
+    } catch (e) {
+      console.log("error", e);
+      res.status(500).send({
+        message: "Error gathering the activity. " + e,
+      });
+    }
+  }
+
+
+  const create = async (req, res) => {
+    try {
+        let body = req.body
+        const creatorEmail = body.creator
         
-//         res.status(200).send(data);
-//       } catch (e) {
-//         console.log("error", e);
-//         res.status(500).send({
-//           message: "Error sending mails. Request was created succesfully",
-//         });
-//       }
+        const idProfile = await getIdProfile(creatorEmail)
+        console.log(idProfile);
 
-//     } catch (e) {
-//       console.log("error", e);
-//       res.status(500).send({
-//         message: "Error creating Requests ",
-//       });
-//     }
-//   }
+        const idSupervisor = await getIdSupervisor(idProfile)
+        console.log(idSupervisor);
+    
+        body['idCreator'] = idSupervisor
+        body['creation_date'] = new Date()
+
+        try {
+          const data = await Activity.create(req.body);
+          // let idactivity = data.dataValues.idactivity;
+
+          res.status(200).send(data);
+        } catch (e) {
+          console.log("error", e);
+          res.status(500).send({
+            message: "Error creating Activity " + e,
+          });
+        }
+      } catch (e) {
+        console.log("error", e);
+        res.status(500).send({
+          message: "You are not allowed to create activities",
+        });
+      }
+
+    
+  }
+
+
+  
+
+
+
+
+
 
 //   // =========================
 //   // *** UPDATE A REQUEST ***
@@ -96,96 +245,16 @@ class ActivityController {
 //     }
 //   }
 
-
-//   // =========================
-//   // *** GET REQUESTS FROM A GIVEN REVIEWER ***
-//   // =========================
-
-//   async findRewiewsWithRequest(req, res) {
-//     try {
-//       let reviewer = req.params.email;
-
-//       const data = await TeamRequired.findAll({
-//         where: {
-//           idTeam: {
-//             [Op.in]: db.sequelize.literal(
-//               `(SELECT idTeam FROM TeamMember WHERE email = '`+ reviewer +`')`
-//             )
-//           }
-//         },include: [{
-//               model: Request,
-//               as :'idRequest_request',
-//             }]
-//       });
-
-//       res.send({'data': data, message : 200});
-//     } catch (e) {
-//       console.log("error", e);
-//       res.status(500).send({
-//         message: "Error gathering Requests from the given user" + e,
-//       });
-//     }
-//   }
+  
 
 
 
-//   async findRequestByReviewer(req, res) {
-//     try {
-//       let reviewer = req.params.email;
-//       console.log("reviewer ", reviewer);
-//       // Necesitamos seleccionar todas las request que necesiten revision por parte de un equipo al cual pertenezca el mail dado.
-//       //
-//       // SELECT * FROM legal.request where idRequest in
-//       //  (select idRequest from legal.TeamRequired where idTeam in
-//       //    (select idTeam from legal.TeamMember where email = 'jorge.moreno@idneo.com') );
-
-//       const data = await Request.findAll({
-//         where: {
-//           idRequest: {
-//             [Op.in]: db.sequelize.literal(
-//               "(SELECT idRequest FROM TeamRequired WHERE idTeam IN (SELECT idTeam FROM TeamMember WHERE email ='" +
-//                 reviewer +
-//                 "'))"
-//             ),
-//           },
-//         },
-//         include: [
-//           {model: TeamRequired, as: 'TeamRequireds', include: [{model: Team, as: 'idTeam_Team'}]}
-//         ]
-//       });
-
-//       res.send({'data': data, message : 200});
-//     } catch (e) {
-//       console.log("error", e);
-//       res.status(500).send({
-//         message: "Error gathering Requests from the given user" + e,
-//       });
-//     }
-//   }
-
-//   // =========================
-//   // *** GET REQUEST FROM A GIVEN ID ***
-//   // =========================
-//   async getRequestId(req, res) {
-//     try {
-//       let id = req.params.id;
-//       let where = { idRequest: id };
-//       const data = await Request.findOne({
-//         where: where,
-//         include: [
-//           {model: TeamRequired, as: 'TeamRequireds', include: [{model: Team, as: 'idTeam_Team'}]},
-//           {model: Review, as: 'reviews'},
-//           {model: Part, as: 'idPart_Part'}
-//         ]
-//       });
-//       res.send({'data': data, message : 200});
-//     } catch (e) {
-//       console.log("error", e);
-//       res.status(500).send({
-//         message: "Error gathering Requests from the given user" + e,
-//       });
-//     }
-//   }
-}
-
-module.exports = ActivityController;
+module.exports = {
+  getAll,
+  getSubmittedActivities,
+  getPendingActivities,
+  getById,
+  getByIdForSupervisor,
+  create,
+  getActivitiesByCreator
+};

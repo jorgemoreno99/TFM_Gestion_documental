@@ -1,0 +1,65 @@
+mat-card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 25px;
+}
+
+.main{
+    padding: 20px 40px;
+}
+
+.details-card{
+    margin: 20px;
+    border-radius: 5px;
+
+    .card-header {
+        border: 1px solid rgb(213, 213, 213);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        background-color: #ececec;
+    }
+
+}
+
+.activity-card{
+    background-color: #dddada;
+}
+
+.card-content{
+    display: flex;
+    flex-direction: row;
+
+    .info-column{
+        width: 50%;
+        padding: 3px;
+        margin: 1%;
+        border-radius: 5px;
+        border: 1px solid darkgray;
+    }
+}
+
+
+.wrapper {
+   padding: 20px 40px;
+   background-color: #dddada;
+   border-bottom-left-radius: 10px;
+   border-bottom-right-radius: 10px;
+ }
+
+ .my-submition{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-around;
+    width: 100%;
+    cursor: pointer;
+ }
+
+
+ .icon-link{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 5%;
+ }
+
+

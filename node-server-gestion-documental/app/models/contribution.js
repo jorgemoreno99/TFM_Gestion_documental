@@ -7,14 +7,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
-    files: {
-      type: DataTypes.STRING(45),
-      allowNull: true
-    },
     idActivity: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -30,6 +22,18 @@ module.exports = function(sequelize, DataTypes) {
         model: 'profile',
         key: 'idProfile'
       }
+    },
+    comment: {
+      type: DataTypes.STRING(255),
+      allowNull: true
+    },
+    files: {
+      type: DataTypes.STRING(45),
+      allowNull: true
+    },
+    date: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
     }
   }, {
     sequelize,

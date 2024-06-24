@@ -23,8 +23,9 @@ app.get("/", (req, res) => {
 
 
 require('./routes/login.routes.js')(app);
-// require('./routes/roles.routes.js')(app);
-// require('./routes/request.routes.js')(app);
+require('./routes/activity.routes.js')(app);
+require('./routes/contribution.routes.js')(app);
+require('./routes/approval.routes.js')(app);
 
 
 // set port, listen for requests

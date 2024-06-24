@@ -1,0 +1,56 @@
+<div class="h-100 main">
+    <div class="banner">
+        <div class="banner-text">{{getHeader()}} </div>
+        <button class="close-btn" (click)="closeDialog()"><mat-icon>close</mat-icon></button>
+    </div>
+
+    <div *ngIf="contribution.comment" class="comment">
+      <span>{{contribution.comment}}</span>
+      <div class="icon-link" style="cursor: pointer;" matTooltip="{{tooltipDeleteMsg}}" *ngIf="!IAmSupervisor">
+        <button [disabled] = "contribution.approvals.length > 0" (click)="deleteContribution()" style="border: none"><mat-icon>delete</mat-icon></button>
+     </div>
+    </div>
+
+
+    <div *ngIf="files && files.length>0" class="files">
+      Files
+      <mat-list class="d-flex flex-column mb-1">
+        <mat-list-item *ngFor="let file of files" class="d-flex flex-row my-1 ">
+          <mat-icon matListItemIcon class="mx-2">note</mat-icon>
+          <div matListItemTitle class="d-flex flex-row justify-content-between" >
+            <span>{{file.name}} </span>
+            <a href="{{file.url}}" target="_blank" class="icon"><mat-icon>cloud_download</mat-icon></a>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+
+
+    <div *ngIf="ICanApprove || !IAmSupervisor && contribution.approvals.length > 0">
+        <form [formGroup]="form">
+            <div class="formDiv">
+                <mat-checkbox formControlName="approved">Approved</mat-checkbox>
+                <mat-form-field style="margin-top: 20px;">
+                    <mat-label>Grade</mat-label>
+                    <input matInput formControlName="grade" type="number"  [min]="0" [max]="10" />
+                    <mat-error *ngIf="form.get('grade')?.hasError('')">Grade</mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="mt-4">
+                    <mat-label>Comment</mat-label>
+                    <input matInput formControlName="comment">
+                </mat-form-field>
+            </div>
+      </form>
+      <div class="d-flex flex-row-reverse">
+        <button (click)="send()"  *ngIf="form.dirty && ICanApprove"  mat-raised-button  class="button sendButton">Send</button>
+      </div>
+    </div>
+
+    <div *ngIf=" IAmSupervisor && !ICanApprove" class="w-100 d-flex justify-content-center mb-3">
+      <span class="cant-approve">You are not allowed to approve or rate in other supervisor's activity</span>
+    </div>
+
+
+
+</div>

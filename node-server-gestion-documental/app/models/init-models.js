@@ -18,6 +18,8 @@ function initModels(sequelize) {
   contribution.hasMany(approval, { as: "approvals", foreignKey: "idContribution"});
   contribution.belongsTo(profile, { as: "idProfile_profile", foreignKey: "idProfile"});
   profile.hasMany(contribution, { as: "contributions", foreignKey: "idProfile"});
+  supervisor.belongsTo(profile, { as: "idProfile_profile", foreignKey: "idProfile"});
+  profile.hasOne(supervisor, { as: "supervisor", foreignKey: "idProfile"});
   activity.belongsTo(supervisor, { as: "idCreator_supervisor", foreignKey: "idCreator"});
   supervisor.hasMany(activity, { as: "activities", foreignKey: "idCreator"});
   approval.belongsTo(supervisor, { as: "idSupervisor_supervisor", foreignKey: "idSupervisor"});

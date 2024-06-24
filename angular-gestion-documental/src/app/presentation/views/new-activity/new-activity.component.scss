@@ -1,0 +1,66 @@
+.content-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 60px;
+}
+
+.wrapper {
+   padding: 20px 40px;
+   background-color: #dddada;
+   border-bottom-left-radius: 14px;
+   border-bottom-right-radius: 14px;
+ }
+
+.form {
+    margin: 50px;
+
+    .myHeader {
+        background-color: #435961;
+        color: white;
+        border-top-left-radius: 14px;
+        border-top-right-radius: 14px;
+    }
+}
+
+
+
+
+.mat-mdc-list-item-icon {
+    color: rgba(0, 0, 0, 0.54);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.attatch-button {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 100px;
+    justify-content: space-between;
+}
+
+
+
+.create-btn{
+    background: linear-gradient(to right, #556add, #4352b5);
+    color: #ffffff !important;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-align: center;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    padding: 10px;
+    margin-right: 4%;
+
+}
+
+.create-btn:hover {
+    background: linear-gradient(to right, #4352b5, #3141a3);
+}
+
+.card-header {
+   border: 1px solid rgb(213, 213, 213);
+}

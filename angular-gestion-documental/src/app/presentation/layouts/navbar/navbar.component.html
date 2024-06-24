@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top"
+  style="background: linear-gradient(to bottom, #2D4841, #317E71);">
+
+
+  <div class="d-flex navbar-brand navbar-labels">
+    <a routerLink="/" style="margin-top: 4px;">
+      <div class="title-shadow d-flex align-items-center">
+        <span class="title-text">Gestión Documental</span>
+      </div>
+    </a>
+    <span style="font-size: 18px; color: rgb(255, 255, 255);">{{email}}</span>
+  </div>
+  
+
+
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto" style="display: flex; align-items: center;">
+      <!-- <li class="nav-item" routerLinkActive="active" style="cursor: default; margin-top: 5px;">
+        <span style="font-size: 18px; color: rgb(255, 255, 255);">{{email}}</span>
+      </li> -->
+      <li class="nav-item" routerLinkActive="active">
+        <a routerLink="/">
+          <button  #tooltip="matTooltip" matTooltip="Home"  mat-icon-button >
+            <mat-icon >home</mat-icon>
+          </button>
+        </a>
+      </li>
+      <li *ngIf="isSupervisor" class="nav-item" routerLinkActive="active">
+        <button  (click)="adminButtonHandler()"  #tooltip="matTooltip" matTooltip="Supervisor settings"  mat-icon-button >
+          <mat-icon >settings</mat-icon>
+        </button>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <button (click)="logout()" #tooltip="matTooltip" matTooltip="Logout" mat-icon-button>
+          <mat-icon>logout</mat-icon>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>

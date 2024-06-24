@@ -20,10 +20,10 @@ const gestion_documental_Models = require("./init-models").initModels(gestion_do
 db.sequelize = gestion_documentalDB;
 
 
-db.activity =gestion_documentalDB.activity
-db.approval = gestion_documentalDB.approval
-db.contribution = gestion_documentalDB.contribution
-db.profile = gestion_documentalDB.profile
-db.supervisor = gestion_documentalDB.supervisor
+db.activity =gestion_documental_Models.activity
+db.approval = gestion_documental_Models.approval
+db.contribution = gestion_documental_Models.contribution
+db.profile = gestion_documental_Models.profile
+db.supervisor = gestion_documental_Models.supervisor
 
 module.exports = db;

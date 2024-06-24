@@ -7,13 +7,14 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       primaryKey: true
     },
-    email: {
-      type: DataTypes.STRING(45),
-      allowNull: true
-    },
-    password: {
-      type: DataTypes.STRING(45),
-      allowNull: true
+    idProfile: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'profile',
+        key: 'idProfile'
+      },
+      unique: "fk_supervisor_profile"
     },
     role: {
       type: DataTypes.STRING(45),
@@ -30,6 +31,14 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "idsupervisor" },
+        ]
+      },
+      {
+        name: "idProfile_UNIQUE",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "idProfile" },
         ]
       },
     ]

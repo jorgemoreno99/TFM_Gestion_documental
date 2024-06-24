@@ -1,1 +1,143 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+  }
+  
+  body {
+	font-family: 'Arial', sans-serif;
+	background-color: #f4f4f4;
+	color: #333;
+	animation: gradient 10s ease infinite;
+	height: 100vh;
+  }
+  
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+.darkbutton {
+	float: right;
+	background-color: whitesmoke;
+	color: #343A40;
+}
+
+
+
+.checkbox {
+	color: white;
+	font-weight: bold;
+}
+
+.rounded-dialog {
+	border-radius: 12px;
+}
+
+.spinner-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+
+.spinner-container img {
+	margin-top: -110px;
+	width: 50px;
+	height: 50px;
+	animation: rotar 1s linear infinite, fadeOut 3s ease forwards;
+	/* La animación dura 3 segundos y se repite indefinidamente */
+}
+
+
+@keyframes rotar {
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0;
+	}
+}
+
+.add-button {
+	background-color: #4054e1!important;
+	color: white!important;
+}
+
+.add-button-disabled {
+	background-color: #4053e173!important;
+  }
+
+mat-dialog-container {
+	background: rgb(255, 255, 255) !important;
+	border-radius: 10px !important
+}
+
+
+// ATTACHMENTS
+.dropzone {
+	width: 95%;
+	height: 200px;
+	padding: 2rem;
+	text-align: center;
+	border: dashed 1px #979797!important;
+	position: relative;
+	margin: 0 auto;
+  }
+  
+   .dropzone input {
+	 opacity: 0;
+	 position: absolute;
+	 z-index: 2;
+	 width: 100%;
+	 height: 100%;
+	 top: 0;
+	 left: 0;
+	 cursor: pointer;
+	}
+  
+  .dropzone label {
+	color: white;
+	width: 183px;
+	height: 44px;
+	border-radius: 21.5px;
+	background-color: #465bd1f1;
+	padding: 8px 16px;
+  
+  }
+  
+  .dropzone h3 {
+	font-size: 20px;
+	font-weight: 600;
+	color: #333;
+  }
+  
+  .disabled {
+	background-color: #465bd189;
+  }
+
+  .text-content {
+	margin-top: 40px!important;
+  }

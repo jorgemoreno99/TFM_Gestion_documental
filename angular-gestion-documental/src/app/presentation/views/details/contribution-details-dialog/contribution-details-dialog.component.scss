@@ -1,0 +1,84 @@
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+
+
+.banner {
+    margin-bottom: 10px;
+    align-items: center;
+    background-color: #2F6359;
+    color: #ffffff;
+    padding: 10px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .banner-text {
+    font-size: 22px;
+    margin-left: 5px;
+  }
+
+
+.comment{
+    padding: 3px;
+    margin: 2%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.files{
+    // width: 50%;
+    padding: 3px;
+    margin: 2%;
+    border-radius: 6px;
+    border: 1px solid darkgray;
+}
+
+  
+.formDiv{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 100px;
+}
+
+.sendButton{
+  background: linear-gradient(to right, #556add, #4352b5);
+  color: #ffffff !important;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: center;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  padding: 10px;
+  margin-right: 4%;
+  margin-bottom: 4%;
+
+}
+
+.sendButton:hover {
+  background: linear-gradient(to right, #4352b5, #3141a3);
+}
+
+.cant-approve{
+  display: inline-block;
+  padding: .25em .4em;
+  font-size: 75%;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  background-color: #2f6359ba;
+  color: white
+}

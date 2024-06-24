@@ -1,0 +1,112 @@
+
+<div class="main" *ngIf="loaded">
+
+  <div class="details-card">
+    <div class="card-header">
+      <h5 style="display: flex">
+        <mat-icon class="mr-2">content_paste</mat-icon><span>{{activity.subject}}</span>
+      </h5>
+    </div>
+    <div class="wrapper content-wrapper card-content">
+
+      <div class="info-column">
+        <div class="item">
+          <div class="item" *ngIf="activity.creator">
+              <span>Creator: {{activity.creator}}</span>
+          </div>
+            <span>Description:</span>
+            <div>
+                {{activity.description}}
+            </div>
+        </div>
+      </div>
+
+
+      <div class="info-column files">
+        Files
+        <mat-list class="d-flex flex-column mb-1">
+          <mat-list-item *ngFor="let file of files" class="d-flex flex-row my-1 ">
+            <mat-icon matListItemIcon class="mx-2">note</mat-icon>
+            <div matListItemTitle class="d-flex flex-row justify-content-between" >
+              <span>{{file.name}} </span>
+              <a href="{{file.url}}" target="_blank" class="icon"><mat-icon>cloud_download</mat-icon></a>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+
+      </div>
+
+  </div>
+
+
+
+  <!-- My submition as user -->
+  <div class="details-card" *ngIf="submitted && !IAmSupervisor">
+    <div class="card-header">
+      <h5 style="display: flex">
+        <mat-icon class="mr-2">content_paste</mat-icon><span>Your Submition</span>
+      </h5>
+    </div>
+    <div class="wrapper content-wrapper">
+
+        <div *ngFor="let cont  of activity.contributions" class="my-submition" (click)="getContributionsDetailsDialog(cont)" >
+            <span style="width: 80%;">{{cont.comment}} </span>
+            <div class="icon-link" style="overflow: hidden" >
+              <span>{{cont.approvals?.length}}</span> <mat-icon>comment</mat-icon>
+            </div>
+        </div>
+
+    </div>
+
+  </div>
+
+
+<!-- Submitions to Supervisor -->
+<div class="details-card" *ngIf="IAmSupervisor">
+  <div class="card-header">
+    <h5 style="display: flex">
+      <mat-icon class="mr-2">content_paste</mat-icon><span>Contributions</span>
+    </h5>
+  </div>
+  <div *ngIf="activity.contributions && activity.contributions.length>0" class="wrapper content-wrapper card-content">
+
+    <table mat-table [dataSource]="dataSourceContributions" matSort matSortDirection="desc">
+
+      <ng-container [matColumnDef]="'user'">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> User </th>
+        <td mat-cell *matCellDef="let element"> {{element.idProfile_profile.email}} </td>
+      </ng-container>
+
+      <ng-container [matColumnDef]="'comment'">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Comment </th>
+        <td mat-cell *matCellDef="let element"> {{element.comment}} </td>
+      </ng-container>
+
+      <ng-container [matColumnDef]="'approved'">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Approved </th>
+        <td mat-cell *matCellDef="let element"> <mat-icon *ngIf="isApproved(element)">check</mat-icon> </td>
+      </ng-container>
+
+      <ng-container [matColumnDef]="'files'">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Files </th>
+        <td mat-cell *matCellDef="let element"> <mat-icon>cloud_download</mat-icon> </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['user','comment','approved','files']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['user','comment','approved','files']"  (click)="getContributionsDetailsDialog(row)"></tr>
+
+    </table>
+
+  </div>
+
+  <div *ngIf="!activity.contributions || activity.contributions.length==0" class="wrapper content-wrapper card-content">
+    No contributions yet
+  </div>
+
+</div>
+
+
+    <button type="button" class="btn btn-secondary" (click)="createContributionHandler()" *ngIf="!submitted && !IAmSupervisor">Submit Contribution</button>
+</div>
