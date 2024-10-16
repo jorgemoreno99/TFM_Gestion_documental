@@ -51,15 +51,11 @@ Este proyecto ha sido desarrollado usando la metodología ágil **Scrum**, con i
    ```bash
    git clone https://github.com/tu-usuario/nombre-del-repo.git
 2. Instala las dependencias:
-  ```bash
 npm install
 4. Configura la base de datos MySQL en el archivo de configuración y ejecuta las migraciones de Sequelize:
-   ```bash
 npx sequelize db:migrate
 5. Inicia el servidor:
-   ```bash
 npm start
-
 
 Uso
 Accede a la aplicación desde tu navegador en http://localhost:3000 y utiliza las credenciales proporcionadas para probar las distintas funcionalidades del sistema.
